@@ -1,9 +1,3 @@
-installer torch
-installer open cv 
-utiliser dataset
-mettre en mp4
-réduire la résolution
-
 # Human fall detection on video sequences and on livestream video with Nvidia Jetson Nano
 * This project aims to detect human falls in order to be warned and help them.
   
