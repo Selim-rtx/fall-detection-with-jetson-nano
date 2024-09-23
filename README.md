@@ -35,15 +35,16 @@ sudo apt-cache show nvidia-jetpack
 
 You will need to install the following libraries:
 * PyTorch : Download the correct PyTorch wheel file in [PyTorch for Jetson](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) by following the instructions according to your JetPack version. In my case, it was PyTorch v1.10.0 since I have JetPack 4.6.
-* * Same for torchvision and even if I use Python3, I had to pip install 'pillow<7'.
- 
+  * Same for torchvision and even if I use Python3, I had to pip install 'pillow<7'.
+* OpenCV although it is normally included in the JetPack installation
+
 ### Dataset
 
 In you project folder, create a folder named dataset, in which you will create two other folders, one named falling and the other not_falling, to put in the first one the videos of people falling and the second for people just walking and sitting. 
 
-For this project I used a dataset provided by 
-
-You will have to convert the 
+For this project I used a dataset provided on [Détection de chutes (2014)](https://search-data.ubfc.fr/ub/FR-13002091000019-2024-04-09_Fall-Detection-Dataset.html)
+Référence : "I. Charfi, J. Mitéran, J. Dubois, M. Atri, R. Tourki, "Optimised spatio-temporal descriptors for real-time fall detection comparison of SVM and Adaboost based classification", Journal of Electronic Imaging (JEI), Vol.22. Issue.4, pp.17, October 2013. "
+Videos are provided in avi format and you will have to convert them into mp4 format to be process by GStreamer. 
 
 ### Installing
 
