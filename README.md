@@ -15,7 +15,7 @@
 
 ## Illustration
 
-[![Watch the video](https://img.youtube.com/vi/OjoA3c8PRKA/0.jpg)](https://www.youtube.com/watch?v=OjoA3c8PRKA)
+For more information about the project, please read my article on my [Medium blog](https://selim-salem.medium.com)
 
 ## Getting Started
 
@@ -38,56 +38,27 @@ In you project folder, create a folder named dataset, in which you will create t
 
 For this project I used a dataset provided on [Détection de chutes (2014)](https://search-data.ubfc.fr/ub/FR-13002091000019-2024-04-09_Fall-Detection-Dataset.html)
 
-Reference : "I. Charfi, J. Mitéran, J. Dubois, M. Atri, R. Tourki, "Optimised spatio-temporal descriptors for real-time fall detection comparison of SVM and Adaboost based classification", Journal of Electronic Imaging (JEI), Vol.22. Issue.4, pp.17, October 2013. "
-
 Videos are provided in avi format and you will have to convert them into mp4 format to be process by GStreamer. 
-
-### Installing
-
-I coded my project in a virtual environement in Visual Studio Code:
-```
-python3 -m venv venv
-```
-```
-venv\Scripts\activate
-```
-I installed all the libraries above but for llama I used the following : 
-```
-python -m pip install llama-cpp-python==0.2.26 --prefer-binary --extra-index-url=https://jllllll.github.io/llama-cpp-python-cuBLAS-wheels/AVX2/cu122
-```
-It's a llama-cpp wheel that I found on this github : [llama-cpp-python cuBLAS wheels](https://github.com/jllllll/llama-cpp-python-cuBLAS-wheels)
-I chose this version because I had issues with Wheels installation and I wanted to be sure that I was using CUDA for inference, and I found exactly what I wanted thanks to this github page. As you will see, you have to know if your CPU uses AVX, and chose the right version according to your python and CUDA Toolkit version you have on your computer.
-
-You can download the json files and use them locally with JSONLoader.
-
-## Datasets and model choice
-Concerning the datasets I used, to make the vector store, I chose these links to a github proposing medical Q&As in json format: 
-* [eHealthforumsQAs](https://github.com/LasseRegin/medical-question-answer-data/blob/master/ehealthforumQAs.json)
-* [icliniqQAs](https://github.com/LasseRegin/medical-question-answer-data/blob/master/icliniqQAs.json)
-And I generated with ChatGPT 4o, a json with symptoms and the medical department where to go. You will find the file named hospital_departement.json in this github.
-
-For the model, I tried quantized Mistral-7b and Llama-13b from Hugging Face :
-* [Mistral-7b](bhttps://huggingface.co/TheBloke/Mistral-7B-OpenOrca-GGUF)
-* [Llama-13b](https://huggingface.co/TheBloke/Llama-2-13B-chat-GGUF)
-
-I recommend to fine tune this model on your dataset before using it for inference. I followed this tutorial to do so :
-[Fine tuning](https://rentry.org/cpu-lora#appendix-a-hardware-requirements)
-
-## GPU offloading
-When you configure your model, you can choose through gpu_layers, how many layers of the model you can offload to the GPU. I offload half (22/44) because when I offload them all, the GPU was too overloaded probably because it's too short in RAM. I tested only 1 layer on the GPU and the rest on the CPU, and it was slower. The inference took 4 minutes in my case because I used a laptop configuration (RTX 2060M). For production, a desktop with an RTX 30 or 40 series with at least 12 Gb of VRAM or a professional GPU such as Quadro RTX would be more appropriate and way faster. 
 
 ### Executing program
 
-```
-python3 doc_chatbot.py
-```
-You will find at the end of the output messages in the CLI, an URL that will display the chatbot in your main browser.
+Put all the python files and the dataset folder in your project folder. Then run the command lines below. Be sure to put the right absolute path. 
 
-## Help
-
-To verify your CUDA version, you can execute this prompt in CLI.
+To train the model on your dataset :
 ```
-nvidia-smi
+python3 train_fall_detection.py --dataset /path/to/dataset --epochs 10 --batch_size 1 --sequence_length 16 --output_model trained_fall_lstm_model.pth
+```
+To run the inference on a video and get only a prediction by frame in the command prompt :
+```
+python3 run_fall_detection.py --input /path/to/input/video.mp4 --sequence_length 16 --model trained_fall_lstm_model.pth
+```
+To run the inference on a video and generate the same video with prediction on falls as an overlay :
+```
+python3 run_fall_detection_video.py --input /path/to/input/video.mp4 --output /path/to/output/prediction_video.mp4 --sequence_length 16 --model trained_fall_lstm_model.pth
+```
+To run the inference on a live camera stream :
+```
+python3 run_fall_detection_live.py --camera 0 --sequence_length 16 --model trained_fall_lstm_model.pth
 ```
 
 ## Authors
@@ -97,20 +68,19 @@ Selim Salem
 
 ## Version History
 
-* 0.1
+* 1.0
     * Initial Release
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details
+This project is licensed under the Apache 2.0 - see the LICENSE.md file for details
 
 ## Acknowledgments
 
-Please find below documentations I used to write my code : 
-* [Nvidia Embeddings](https://nvidia.github.io/GenerativeAIExamples/latest/notebooks/10_RAG_for_HTML_docs_with_Langchain_NVIDIA_AI_Endpoints.html))
-* [LangChain QA](https://python.langchain.com/v0.2/docs/tutorials/local_rag/)
+Please find below the dataset I used and reference : 
+* [Détection de chutes (2014)](https://search-data.ubfc.fr/ub/FR-13002091000019-2024-04-09_Fall-Detection-Dataset.html)
+
+Reference : "I. Charfi, J. Mitéran, J. Dubois, M. Atri, R. Tourki, "Optimised spatio-temporal descriptors for real-time fall detection comparison of SVM and Adaboost based classification", Journal of Electronic Imaging (JEI), Vol.22. Issue.4, pp.17, October 2013. "
 
 My hardware specifications are :
-CPU : Intel Core i7-1165G7 (Quad-Core 1.2 GHz - 2.8 GHz / 4.7 GHz Turbo - 8 Threads - Cache 12 Mo - TDP 28 W) 
-RAM : 16 Go DDR4 3200 Mhz
-GPU : Nvidia RTX 2060 M (6 Go V-RAM)
+Nvidia Jetson Nano 4 Gb with 64 Gb of ROM (10 Gb of Memory swap)
