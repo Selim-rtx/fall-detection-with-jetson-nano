@@ -46,7 +46,7 @@ Put all the python files and the dataset folder in your project folder. Then run
 
 To train the model on your dataset :
 ```
-python3 train_fall_detection.py --dataset /path/to/dataset --epochs 10 --batch_size 1 --sequence_length 16 --output_model trained_fall_lstm_model.pth
+python3 train_fall_detection.py --dataset /path/to/dataset --epochs 15 --batch_size 1 --sequence_length 40 --output_model trained_fall_lstm_model.pth
 ```
 To run the inference on a video and get only a prediction by frame in the command prompt :
 ```
@@ -54,7 +54,7 @@ python3 run_fall_detection.py --input /path/to/input/video.mp4 --sequence_length
 ```
 To run the inference on a video and generate the same video with prediction on falls as an overlay :
 ```
-python3 run_fall_detection_video.py --input /path/to/input/video.mp4 --output /path/to/output/prediction_video.mp4 --sequence_length 16 --model trained_fall_lstm_model.pth
+python3 run_fall_detection_video.py --input /path/to/input/video.mp4 --output /path/to/output/prediction_video.mp4 --sequence_length 4 --model trained_fall_lstm_model.pth
 ```
 To run the inference on a live camera stream :
 ```
