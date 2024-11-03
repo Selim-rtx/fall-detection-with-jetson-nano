@@ -13,11 +13,15 @@
   * the second one for inference on a video sequence and video output with the prediction rate displayed,
   * the third one for inference on a livestream from the camera plugged in the Jetson Nano.
 
-## Illustration
+## Deep-dive into the project
 
 For more information about the project, please read my article on my [Medium blog](https://selim-salem.medium.com)
 
 ## Getting Started
+
+### Hardware
+
+I used an Nvidia Jetson Nano 4Gb with a 64Gb micro-SD Card on which I allocated 10 Gb for memory swap. To avoid undervoltage and by consequence not having enough power for processing, I used a 5V/4A DC adapter power supply.
 
 ### Check your JetPack version
 In command line, write the line below to check your JetPack version. In my case, I have JetPack 4.6.1.
@@ -84,3 +88,4 @@ Reference : "I. Charfi, J. Mitéran, J. Dubois, M. Atri, R. Tourki, "Optimised s
 
 My hardware specifications are :
 Nvidia Jetson Nano 4 Gb with 64 Gb of ROM (10 Gb of Memory swap)
+Webcam : Logitech C270
