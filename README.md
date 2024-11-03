@@ -42,7 +42,7 @@ In you project folder, create a folder named dataset, in which you will create t
 
 For this project I used a dataset provided on [Détection de chutes (2014)](https://search-data.ubfc.fr/ub/FR-13002091000019-2024-04-09_Fall-Detection-Dataset.html)
 
-Videos are provided in avi format and you will have to convert them into mp4 format to be process by GStreamer. 
+Videos are provided in avi format and you will have to convert them into mp4 format to be process by GStreamer. I cut the videos with ClipChamp to get only the fall for the falling dataset and people walking and sitting for the not_falling dataset. After videos cutting, a video should last around 2 to 4 seconds. This will target specifically the desired action and reduce the workload during processing, especially during training.
 
 ### Executing program
 
